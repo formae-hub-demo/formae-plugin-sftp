@@ -25,7 +25,6 @@ require (
 	github.com/go-logr/stdr v1.2.2 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.7 // indirect
-	github.com/klauspost/compress v1.18.5 // indirect
 	github.com/kr/fs v0.1.0 // indirect
 	github.com/lufia/plan9stats v0.0.0-20251013123823-9fd1530e3ec3 // indirect
 	github.com/masterminds/semver v1.5.0 // indirect
@@ -62,7 +61,3 @@ require (
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/platform-engineering-labs/formae/pkg/model => /home/jeroen/dev/pel/formae/.worktrees/resource-plugin-config/pkg/model
-
-replace github.com/platform-engineering-labs/formae/pkg/plugin => /home/jeroen/dev/pel/formae/.worktrees/resource-plugin-config/pkg/plugin
