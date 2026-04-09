@@ -14,6 +14,7 @@ import (
 	"sync"
 
 	"github.com/platform-engineering-labs/formae-plugin-sftp/pkg/asyncsftp"
+	model "github.com/platform-engineering-labs/formae/pkg/model"
 	"github.com/platform-engineering-labs/formae/pkg/plugin"
 	"github.com/platform-engineering-labs/formae/pkg/plugin/resource"
 	"go.opentelemetry.io/otel/attribute"
@@ -108,13 +109,40 @@ func parseFileProperties(data json.RawMessage) (*FileProperties, error) {
 // Plugin implements the Formae ResourcePlugin interface.
 // The SDK automatically provides identity methods (Name, Version, Namespace)
 // by reading formae-plugin.pkl at startup.
-type Plugin struct {
-	mu     sync.Mutex
-	client *asyncsftp.Client
+// PluginConfig holds plugin-level configuration from formae.conf.pkl.
+type PluginConfig struct {
+	DefaultTimeoutSeconds    int `json:"defaultTimeoutSeconds"`
+	MaxConcurrentConnections int `json:"maxConcurrentConnections"`
 }
 
-// Compile-time check: Plugin must satisfy ResourcePlugin interface.
+type Plugin struct {
+	mu                       sync.Mutex
+	client                   *asyncsftp.Client
+	defaultTimeoutSeconds    int
+	maxConcurrentConnections int
+}
+
+// Compile-time check: Plugin must satisfy ResourcePlugin and Configurable interfaces.
 var _ plugin.ResourcePlugin = &Plugin{}
+var _ plugin.Configurable = &Plugin{}
+
+// Configure receives plugin-specific configuration from formae.conf.pkl.
+// Called once during plugin setup, before the plugin announces to the agent.
+func (p *Plugin) Configure(config json.RawMessage) error {
+	var cfg PluginConfig
+	if err := json.Unmarshal(config, &cfg); err != nil {
+		return fmt.Errorf("sftp: invalid plugin config: %w", err)
+	}
+	if cfg.DefaultTimeoutSeconds > 0 {
+		p.defaultTimeoutSeconds = cfg.DefaultTimeoutSeconds
+	}
+	if cfg.MaxConcurrentConnections > 0 {
+		p.maxConcurrentConnections = cfg.MaxConcurrentConnections
+	}
+	fmt.Printf("SFTP plugin configured: defaultTimeoutSeconds=%d maxConcurrentConnections=%d\n",
+		p.defaultTimeoutSeconds, p.maxConcurrentConnections)
+	return nil
+}
 
 // getClient returns the SFTP client, creating it if necessary.
 // The client is created lazily on first use and reused for subsequent calls.
@@ -166,23 +194,22 @@ func (p *Plugin) getClient(targetConfig json.RawMessage) (*asyncsftp.Client, err
 // RateLimit returns the rate limiting configuration for this plugin.
 // SFTP servers typically limit concurrent connections, so we use a
 // conservative limit of 5 requests per second.
-func (p *Plugin) RateLimit() plugin.RateLimitConfig {
-	return plugin.RateLimitConfig{
-		Scope:                            plugin.RateLimitScopeNamespace,
-		MaxRequestsPerSecondForNamespace: 5,
+func (p *Plugin) RateLimit() model.RateLimitConfig {
+	return model.RateLimitConfig{
+		MaxRequestsPerSecond: 5,
 	}
 }
 
 // DiscoveryFilters returns filters to exclude resources from discovery.
 // We discover all files, so return nil.
-func (p *Plugin) DiscoveryFilters() []plugin.MatchFilter {
+func (p *Plugin) DiscoveryFilters() []model.MatchFilter {
 	return nil
 }
 
 // LabelConfig returns the configuration for extracting human-readable labels
 // from discovered resources.
-func (p *Plugin) LabelConfig() plugin.LabelConfig {
-	return plugin.LabelConfig{
+func (p *Plugin) LabelConfig() model.LabelConfig {
+	return model.LabelConfig{
 		// Use the file path as the label for discovered files
 		DefaultQuery: "$.path",
 	}
