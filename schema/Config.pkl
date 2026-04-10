@@ -6,6 +6,8 @@
 
 /// SFTP plugin configuration.
 /// Provides connection and behavior settings for the SFTP plugin.
+open module sftp.Config
+
 extends "formae:/Config.pkl"
 
 class PluginConfig extends BaseResourcePluginConfig {
