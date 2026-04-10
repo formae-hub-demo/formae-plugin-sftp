@@ -17,22 +17,21 @@ import (
 func TestPlugin_Configure(t *testing.T) {
 	p := &Plugin{}
 
-	config := json.RawMessage(`{"defaultTimeoutSeconds": 60, "maxConcurrentConnections": 10}`)
+	config := json.RawMessage(`{"defaultTimeoutSeconds": 60, "defaultFilePermissions": "0755"}`)
 	err := p.Configure(config)
 	require.NoError(t, err)
 	assert.Equal(t, 60, p.defaultTimeoutSeconds)
-	assert.Equal(t, 10, p.maxConcurrentConnections)
+	assert.Equal(t, "0755", p.defaultFilePermissions)
 }
 
 func TestPlugin_Configure_Defaults(t *testing.T) {
 	p := &Plugin{}
 
-	// Empty config — fields stay at zero values
 	config := json.RawMessage(`{}`)
 	err := p.Configure(config)
 	require.NoError(t, err)
 	assert.Equal(t, 0, p.defaultTimeoutSeconds)
-	assert.Equal(t, 0, p.maxConcurrentConnections)
+	assert.Equal(t, "", p.defaultFilePermissions)
 }
 
 func TestPlugin_Configure_InvalidJSON(t *testing.T) {

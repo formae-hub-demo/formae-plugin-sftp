@@ -15,7 +15,6 @@ class PluginConfig extends BaseResourcePluginConfig {
     /// Defaults to 30 seconds if not set.
     defaultTimeoutSeconds: Int = 30
 
-    /// Maximum number of concurrent SFTP connections per target.
-    /// Defaults to 5.
-    maxConcurrentConnections: Int = 5
+    /// Default file permissions for newly created files (e.g., "0644").
+    defaultFilePermissions: String = "0644"
 }

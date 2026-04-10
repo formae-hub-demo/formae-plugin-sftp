@@ -111,15 +111,15 @@ func parseFileProperties(data json.RawMessage) (*FileProperties, error) {
 // by reading formae-plugin.pkl at startup.
 // PluginConfig holds plugin-level configuration from formae.conf.pkl.
 type PluginConfig struct {
-	DefaultTimeoutSeconds    int `json:"defaultTimeoutSeconds"`
-	MaxConcurrentConnections int `json:"maxConcurrentConnections"`
+	DefaultTimeoutSeconds  int    `json:"defaultTimeoutSeconds"`
+	DefaultFilePermissions string `json:"defaultFilePermissions"`
 }
 
 type Plugin struct {
-	mu                       sync.Mutex
-	client                   *asyncsftp.Client
-	defaultTimeoutSeconds    int
-	maxConcurrentConnections int
+	mu                     sync.Mutex
+	client                 *asyncsftp.Client
+	defaultTimeoutSeconds  int
+	defaultFilePermissions string
 }
 
 // Compile-time check: Plugin must satisfy ResourcePlugin and Configurable interfaces.
@@ -136,11 +136,11 @@ func (p *Plugin) Configure(config json.RawMessage) error {
 	if cfg.DefaultTimeoutSeconds > 0 {
 		p.defaultTimeoutSeconds = cfg.DefaultTimeoutSeconds
 	}
-	if cfg.MaxConcurrentConnections > 0 {
-		p.maxConcurrentConnections = cfg.MaxConcurrentConnections
+	if cfg.DefaultFilePermissions != "" {
+		p.defaultFilePermissions = cfg.DefaultFilePermissions
 	}
-	fmt.Printf("SFTP plugin configured: defaultTimeoutSeconds=%d maxConcurrentConnections=%d\n",
-		p.defaultTimeoutSeconds, p.maxConcurrentConnections)
+	fmt.Printf("SFTP plugin configured: defaultTimeoutSeconds=%d defaultFilePermissions=%s\n",
+		p.defaultTimeoutSeconds, p.defaultFilePermissions)
 	return nil
 }
 
