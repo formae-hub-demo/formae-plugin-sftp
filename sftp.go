@@ -196,7 +196,8 @@ func (p *Plugin) getClient(targetConfig json.RawMessage) (*asyncsftp.Client, err
 // conservative limit of 5 requests per second.
 func (p *Plugin) RateLimit() model.RateLimitConfig {
 	return model.RateLimitConfig{
-		MaxRequestsPerSecond: 5,
+		Scope:                            model.RateLimitScopeNamespace,
+		MaxRequestsPerSecondForNamespace: 5,
 	}
 }
 
