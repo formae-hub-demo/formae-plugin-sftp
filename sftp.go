@@ -14,6 +14,7 @@ import (
 	"sync"
 
 	"github.com/platform-engineering-labs/formae-plugin-sftp/pkg/asyncsftp"
+	"github.com/platform-engineering-labs/formae/pkg/model"
 	"github.com/platform-engineering-labs/formae/pkg/plugin"
 	"github.com/platform-engineering-labs/formae/pkg/plugin/resource"
 	"go.opentelemetry.io/otel/attribute"
@@ -166,23 +167,23 @@ func (p *Plugin) getClient(targetConfig json.RawMessage) (*asyncsftp.Client, err
 // RateLimit returns the rate limiting configuration for this plugin.
 // SFTP servers typically limit concurrent connections, so we use a
 // conservative limit of 5 requests per second.
-func (p *Plugin) RateLimit() plugin.RateLimitConfig {
-	return plugin.RateLimitConfig{
-		Scope:                            plugin.RateLimitScopeNamespace,
+func (p *Plugin) RateLimit() model.RateLimitConfig {
+	return model.RateLimitConfig{
+		Scope:                            model.RateLimitScopeNamespace,
 		MaxRequestsPerSecondForNamespace: 5,
 	}
 }
 
 // DiscoveryFilters returns filters to exclude resources from discovery.
 // We discover all files, so return nil.
-func (p *Plugin) DiscoveryFilters() []plugin.MatchFilter {
+func (p *Plugin) DiscoveryFilters() []model.MatchFilter {
 	return nil
 }
 
 // LabelConfig returns the configuration for extracting human-readable labels
 // from discovered resources.
-func (p *Plugin) LabelConfig() plugin.LabelConfig {
-	return plugin.LabelConfig{
+func (p *Plugin) LabelConfig() model.LabelConfig {
+	return model.LabelConfig{
 		// Use the file path as the label for discovered files
 		DefaultQuery: "$.path",
 	}
