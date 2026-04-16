@@ -106,16 +106,43 @@ func parseFileProperties(data json.RawMessage) (*FileProperties, error) {
 // Plugin
 // =============================================================================
 
+// PluginConfig holds plugin-level configuration from formae.conf.pkl.
+type PluginConfig struct {
+	DefaultTimeoutSeconds  int    `json:"defaultTimeoutSeconds"`
+	DefaultFilePermissions string `json:"defaultFilePermissions"`
+}
+
 // Plugin implements the Formae ResourcePlugin interface.
 // The SDK automatically provides identity methods (Name, Version, Namespace)
 // by reading formae-plugin.pkl at startup.
 type Plugin struct {
-	mu     sync.Mutex
-	client *asyncsftp.Client
+	mu                     sync.Mutex
+	client                 *asyncsftp.Client
+	defaultTimeoutSeconds  int
+	defaultFilePermissions string
 }
 
-// Compile-time check: Plugin must satisfy ResourcePlugin interface.
+// Compile-time check: Plugin must satisfy ResourcePlugin and Configurable interfaces.
 var _ plugin.ResourcePlugin = &Plugin{}
+var _ plugin.Configurable = &Plugin{}
+
+// Configure receives plugin-specific configuration from formae.conf.pkl.
+// Called once during plugin setup, before the plugin announces to the agent.
+func (p *Plugin) Configure(config json.RawMessage) error {
+	var cfg PluginConfig
+	if err := json.Unmarshal(config, &cfg); err != nil {
+		return fmt.Errorf("sftp: invalid plugin config: %w", err)
+	}
+	if cfg.DefaultTimeoutSeconds > 0 {
+		p.defaultTimeoutSeconds = cfg.DefaultTimeoutSeconds
+	}
+	if cfg.DefaultFilePermissions != "" {
+		p.defaultFilePermissions = cfg.DefaultFilePermissions
+	}
+	fmt.Printf("SFTP plugin configured: defaultTimeoutSeconds=%d defaultFilePermissions=%s\n",
+		p.defaultTimeoutSeconds, p.defaultFilePermissions)
+	return nil
+}
 
 // getClient returns the SFTP client, creating it if necessary.
 // The client is created lazily on first use and reused for subsequent calls.
