@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/pkg/sftp v1.13.10
 	github.com/platform-engineering-labs/formae/pkg/model v0.1.23
-	github.com/platform-engineering-labs/formae/pkg/plugin v0.1.23
+	github.com/platform-engineering-labs/formae/pkg/plugin v0.2.0
 	github.com/platform-engineering-labs/formae/pkg/plugin-conformance-tests v0.1.43
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/otel v1.40.0
