@@ -16,6 +16,7 @@ jobs:
         run: |
           gh workflow run plugin-build.yml \
             -R platform-engineering-labs/formae-actions \
+            --ref main \
             -f plugin-name=sftp \
             -f plugin-repo=$GITHUB_REPOSITORY \
             -f ref=$GITHUB_REF_NAME
