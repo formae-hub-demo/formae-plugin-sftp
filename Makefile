@@ -27,6 +27,7 @@ all: build
 
 ## build: Build the plugin binary
 build:
+	@mkdir -p schema/pkl && echo "$(PLUGIN_VERSION)" > schema/pkl/VERSION
 	$(GO) build $(GOFLAGS) -o bin/$(BINARY) .
 
 ## test: Run all tests
