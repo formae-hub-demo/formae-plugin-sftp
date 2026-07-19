@@ -4,11 +4,11 @@
  * This file defines metadata for the SFTP plugin.
  */
 
-name = "sftp"
+name = "sftp-demo"
 
 version = "0.1.0"
 
-namespace = "SFTP"
+namespace = "SFTPDEMO"
 
 summary = "SFTP file resource plugin"
 

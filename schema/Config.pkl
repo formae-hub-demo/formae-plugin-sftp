@@ -11,7 +11,7 @@ open module sftp.Config
 extends "formae:/Config.pkl"
 
 class PluginConfig extends BaseResourcePluginConfig {
-    type = "sftp"
+    type = "sftp-demo"
 
     /// Connection timeout in seconds for SFTP operations.
     /// Defaults to 30 seconds if not set.

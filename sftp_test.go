@@ -76,7 +76,7 @@ func TestCreate(t *testing.T) {
 	require.NoError(t, err, "failed to marshal properties")
 
 	req := &resource.CreateRequest{
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		Label:        "test-create",
 		Properties:   propertiesJSON,
 		TargetConfig: testTargetConfig(),
@@ -98,7 +98,7 @@ func TestCreate(t *testing.T) {
 	// --- Step 2: Poll Status until Success ---
 	statusReq := &resource.StatusRequest{
 		RequestID:    requestID,
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		TargetConfig: testTargetConfig(),
 	}
 
@@ -181,7 +181,7 @@ func TestRead(t *testing.T) {
 
 	req := &resource.ReadRequest{
 		NativeID:     filePath,
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		TargetConfig: testTargetConfig(),
 	}
 
@@ -231,7 +231,7 @@ func TestReadNotFound(t *testing.T) {
 	// Read a file that does not exist
 	req := &resource.ReadRequest{
 		NativeID:     "/upload/this-file-does-not-exist.txt",
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		TargetConfig: testTargetConfig(),
 	}
 
@@ -304,7 +304,7 @@ func TestUpdate(t *testing.T) {
 
 	req := &resource.UpdateRequest{
 		NativeID:          filePath,
-		ResourceType:      "SFTP::Files::File",
+		ResourceType:      "SFTPDEMO::Files::File",
 		PriorProperties:   priorProps,
 		DesiredProperties: desiredProps,
 		TargetConfig:      testTargetConfig(),
@@ -372,7 +372,7 @@ func TestDelete(t *testing.T) {
 
 	req := &resource.DeleteRequest{
 		NativeID:     filePath,
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		TargetConfig: testTargetConfig(),
 	}
 
@@ -406,7 +406,7 @@ func TestDeleteNotFound(t *testing.T) {
 	// Delete a file that does not exist
 	req := &resource.DeleteRequest{
 		NativeID:     "/upload/this-file-does-not-exist-for-delete.txt",
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		TargetConfig: testTargetConfig(),
 	}
 
@@ -466,7 +466,7 @@ func TestList(t *testing.T) {
 	plugin := &Plugin{}
 
 	req := &resource.ListRequest{
-		ResourceType: "SFTP::Files::File",
+		ResourceType: "SFTPDEMO::Files::File",
 		TargetConfig: testTargetConfig(),
 	}
 

@@ -8,7 +8,7 @@ A formae plugin for managing files on SFTP servers. This plugin was created as p
 
 | Resource Type | Description |
 |---------------|-------------|
-| `SFTP::Files::File` | Manages files on an SFTP server |
+| `SFTPDEMO::Files::File` | Manages files on an SFTP server |
 
 ## Configuration
 
