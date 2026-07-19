@@ -1,6 +1,6 @@
 #!/bin/bash
 # © 2025 Platform Engineering Labs Inc.
-# SPDX-License-Identifier: FSL-1.1-ALv2
+# SPDX-License-Identifier: Apache-2.0
 #
 # Clean Environment Hook
 # ======================
