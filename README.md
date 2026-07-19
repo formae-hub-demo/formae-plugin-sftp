@@ -58,4 +58,4 @@ formae apply --mode reconcile examples/basic/main.pkl
 
 ## License
 
-This plugin is licensed under [FSL-1.1-ALv2](LICENSE).
+This plugin is licensed under [Apache-2.0](LICENSE).
