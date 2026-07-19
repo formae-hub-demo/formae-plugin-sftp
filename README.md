@@ -15,7 +15,7 @@ A formae plugin for managing files on SFTP servers. This plugin was created as p
 Configure a target in your forma file:
 
 ```pkl
-import "@sftp/sftp.pkl"
+import "@sftp-demo/sftp-demo.pkl" as sftp
 
 new formae.Target {
   label = "sftp-server"
@@ -41,7 +41,7 @@ Set these environment variables before starting the formae agent.
 See the [examples/](examples/) directory for usage examples.
 
 ```pkl
-import "@sftp/sftp.pkl"
+import "@sftp-demo/sftp-demo.pkl" as sftp
 
 new sftp.File {
   label = "hello"

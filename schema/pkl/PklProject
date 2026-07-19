@@ -7,8 +7,8 @@ dependencies {
 }
 
 package {
-  name = "sftp"
-  baseUri = "package://hub.platform.engineering/plugins/sftp/schema/pkl/\(name)/\(name)"
+  name = "sftp-demo"
+  baseUri = "package://hub.platform.engineering/plugins/\(name)/schema/pkl/\(name)/\(name)"
   version = read("VERSION").text.trim()
-  packageZipUrl = "https://hub.platform.engineering/plugins/sftp/schema/pkl/\(name)/\(name)@\(version).zip"
+  packageZipUrl = "https://hub.platform.engineering/plugins/\(name)/schema/pkl/\(name)/\(name)@\(version).zip"
 }

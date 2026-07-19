@@ -4,6 +4,6 @@ dependencies {
   ["formae"] {
     uri = "package://hub.platform.engineering/plugins/pkl/schema/pkl/formae/formae@0.84.0"
   }
-  // Import sftp schema from local project (relative to this testdata directory)
-  ["sftp"] = import("../schema/pkl/PklProject")
+  // Import sftp-demo schema from local project (relative to this testdata directory)
+  ["sftp-demo"] = import("../schema/pkl/PklProject")
 }

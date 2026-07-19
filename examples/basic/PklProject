@@ -4,7 +4,7 @@ dependencies {
   ["formae"] {
     uri = "package://hub.platform.engineering/plugins/pkl/schema/pkl/formae/formae@0.84.0"
   }
-  ["sftp"] {
-    uri = "package://hub.platform.engineering/plugins/sftp/schema/pkl/sftp/sftp@0.1.0"
+  ["sftp-demo"] {
+    uri = "package://hub.platform.engineering/plugins/sftp-demo/schema/pkl/sftp-demo/sftp-demo@0.1.1"
   }
 }

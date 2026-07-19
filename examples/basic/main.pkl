@@ -7,7 +7,7 @@
 amends "@formae/forma.pkl"
 
 import "@formae/formae.pkl"
-import "@sftp/sftp.pkl"
+import "@sftp-demo/sftp-demo.pkl" as sftp
 
 forma {
   new formae.Stack {
